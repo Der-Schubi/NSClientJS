@@ -62,6 +62,10 @@ a {
   font-size: 0.6rem;
 }
 
+#BGTrend {
+  letter-spacing: -2rem;
+}
+
 #configButton {
   height: 15%;
 }

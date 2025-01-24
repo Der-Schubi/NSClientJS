@@ -95,8 +95,6 @@ function RefreshEntries()
           var secondLine = response.split("\n")[1];
           var words = firstLine.split('	');
           var words2nd = secondLine.split('	');
-          console.log(words);
-          console.log(words2nd);
           var bgValue = '';
           var bgLastValue = '';
           var bgDiff = '';
