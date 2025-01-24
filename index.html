@@ -10,17 +10,15 @@
     <!--<link href="images.css" rel="stylesheet">
     <link href="colors.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <link href="modal.css" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">-->
+    <link href="modal.css" rel="stylesheet">-->
+    <link href="main.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/png/favicon.ico" sizes="any">
     <script src="jquery-3.7.1.js"></script>
     <script src="nsclientjs.js"></script>
   </head>
 
   <body>
-    <input id="showButton" type="button"  value = "Config" onClick="showForm();" />
-
-    <div id="Form" style="display:none;">
+    <div class="Main" id="Form" style="display:none;">
       <form id="mainForm">
         <p>
         <label for="url">Nightscout URL</label>
@@ -36,19 +34,37 @@
           <input type="radio" name="unit" id="mmol" value="mmol"><label for="mmol">mmol/L</label><br/>
         </p>
       <p>
-        <input id="hideButton" type="button"  value="Ok" onClick="hideForm();" />
+        <div class="Button" id="configButton">
+          <input id="hideButton" type="button"  value="Ok" onClick="hideForm();" />
+        </div>
       </p>
       </form>
     </div> <!-- End Form -->
 
-    <div id="Page">
-      <div class="BigText" id="BGValue">
-        ---
+    <div class="Main" id="Page">
+      <div class="Button" id="configButton">
+        <input id="showButton" type="button"  value = "Config" onClick="showForm();" />
       </div>
-      <div class="BigText" id="BGTrend">
-        ?
+      <div class="Container" id="BGDisplay">
+        <div class="tableRow">
+          <div class="tableCell BigText" id="BGTrend"> <!--Trend Arrow -->
+            ?
+          </div>
+          <div class="tableCell BigText" id="BGValue"> <!-- BG Value -->
+            ---
+          </div>
+          <div class="smallTableCell SmallerText" id="BGUnit"> <!-- Unit Name -->
+            --
+          </div>
+          <div class="smallTableCell SmallerText" id="BGDiff"> <!-- BG Diff -->
+            --
+          </div>
+        </div>
       </div>
-      <div class="SmallText" id="Debug" style="display:none">
+      <div class="Container" id="Graph">
+        To-Do: Graph
+      </div>
+      <div class="SmallerText" id="Debug" style="display:none">
         [...]
       </div>
     </div><br/> <!-- End Page -->

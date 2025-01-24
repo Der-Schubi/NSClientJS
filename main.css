@@ -1,0 +1,116 @@
+/* Generic Elements */
+
+html {
+  background-color: #000000;
+  color: #ffffff;
+  cursor: default;
+  font-family: sans-serif;
+  font: "droid sans";
+  font-size: 8.42mm;
+  overflow: hidden;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer and Edge */
+            user-select: none; /* Chrome and Opera */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.BigText {
+    font-size: 6rem;
+}
+.SmallText {
+    font-size: 3rem;
+}
+.SmallerText {
+    font-size: 1rem;
+}
+
+.Main {
+  position: absolute;
+  width: 25rem;
+  height: 15rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -7.5rem;
+  margin-left: -12.5rem;
+  overflow: hidden;
+  border: 0.03rem solid #cccccc;
+  box-sizing: border-box;
+  background: #080808;
+  text-align: center;
+}
+
+.Container {
+  width: 100%;
+  height: 100%
+  display: table;
+}
+
+#BGDisplay {
+  height: 55%;
+}
+
+#Graph {
+  height: 30%;
+  font-size: 0.6rem;
+}
+
+#configButton {
+  height: 15%;
+}
+
+.tableRow {
+  display: table-row;
+}
+
+.tableCell {
+  width: 33%;
+  display: table-cell;
+}
+
+.smallTableCell {
+  width: 16%;
+  display: table-cell;
+}
+
+
+/* Media Queries */
+
+@media only screen and (max-width: 22cm)
+{
+  html {
+    font-size: 3.8vw;
+  }
+}
+
+@media only screen and (max-height: 14cm)
+{
+  html {
+    font-size: 6vh;
+  }
+}
+
+/*
+@media only screen and (orientation: portrait) and (max-width: 15cm)
+{
+  html {
+    font-size: 5.5vmin;
+  }
+  #Page {
+    position: absolute;
+    width: 12.5rem;
+    height: 27.5rem;
+    top: 50%;
+    left: 50%;
+    margin-left: -6.25rem;
+    margin-top: -13.75rem;
+  }
+}
+*/

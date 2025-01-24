@@ -90,20 +90,38 @@ function RefreshEntries()
       {
         try
         {
-          var firstLine = response.slice(0, response.indexOf("\n"));
+          //var firstLine = response.slice(0, response.indexOf("\n"));
+          var firstLine = response.split("\n")[0];
+          var secondLine = response.split("\n")[1];
           var words = firstLine.split('	');
+          var words2nd = secondLine.split('	');
+          console.log(words);
+          console.log(words2nd);
           var bgValue = '';
+          var bgLastValue = '';
+          var bgDiff = '';
 
           if ($("#mmol").is(":checked"))
           {
             bgValue = (words[2]/18).toFixed(1);
+            bgLastValue = (words2nd[2]/18);
+            bgDiff = (bgValue - bgLastValue).toFixed(1)
+            $('#BGUnit').text('mmol/L');
           }
           else
           {
             bgValue = words[2];
+            bgLastValue = words2nd[2];
+            bgDiff = (bgValue - bgLastValue).toFixed(0)
+            $('#BGUnit').text('mg/dL');
+          }
+
+          if (bgDiff >= 0) {
+            bgDiff = '+'+bgDiff;
           }
 
           $('#BGValue').text(bgValue);
+          $('#BGDiff').text(bgDiff);
 
           var trend = words[3].replace(/['"]+/g, '');
           var trendArrow = '';
