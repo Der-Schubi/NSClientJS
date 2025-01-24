@@ -1,24 +1,38 @@
 let url, token, unit;
+let timeout;
+var enableRefresh = false;
 
-function showForm() {
- $("#Form").css("display","block");
- $("#showButton").css("display","none");
+function showForm()
+{
+  $("#Form").css("display","block");
+  $("#showButton").css("display","none");
+  hidePage();
+  enableRefresh = false;
+  console.log('showForm');
 }
 
-function hideForm() {
- $("#Form").css("display","none");
- $("#showButton").css("display","inline");
+function hideForm()
+{
+  $("#Form").css("display","none");
+  $("#showButton").css("display","inline");
+  showPage();
+  enableRefresh = true;
+  console.log('hideForm');
+  RefreshEntries();
 }
 
-function showPage() {
- $("#Page").css("display","block");
+function showPage()
+{
+  $("#Page").css("display","block");
 }
 
-function hidePage() {
- $("#Page").css("display","none");
+function hidePage()
+{
+  $("#Page").css("display","none");
 }
 
-$(document).ready(function() {
+$(document).ready(function()
+{
   console.log('init');
   $('#BGValue').text('[loading]');
 
@@ -41,10 +55,11 @@ $(document).ready(function() {
         if(d.value === cached.unit) d.checked = true;
       });
     }
+    enableRefresh=true;
   }
   else {
     console.log('no data');
-    hidePage();
+    $("#mgdl").prop("checked", true)
     showForm();
   }
 
@@ -57,15 +72,15 @@ $(document).ready(function() {
   RefreshEntries();
 });
 
-function RefreshEntries() {
-  if (document.hidden !== true)
+function RefreshEntries()
+{
+  console.log('refresh');
+  if (document.hidden !== true && enableRefresh == true)
   {
     $.ajax({
       url: url.value+'/api/v1/entries?token='+token.value,
       cache: 'false',
       method: 'GET',
-      //async:true,
-      //crossDomain:true,
       timeout: 1000,
       success: function(response)
       {
@@ -73,40 +88,94 @@ function RefreshEntries() {
         {
           var firstLine = response.slice(0, response.indexOf("\n"));
           var words = firstLine.split('	');
+          var bgValue = '';
 
-          $('#BGValue').text(words[2]);
+          if ($("#mmol").is(":checked"))
+          {
+            bgValue = (words[2]/18).toFixed(1);
+          }
+          else
+          {
+            bgValue = words[2];
+          }
+
+          $('#BGValue').text(bgValue);
 
           var trend = words[3].replace(/['"]+/g, '');
-          if (trend == 'Flat') {
-            $('#BGTrend').text('→');
-          } else if (trend == 'FortyFiveUp') {
-            $('#BGTrend').text('↗');
-          } else if (trend == 'SingleUp') {
-            $('#BGTrend').text('↑');
-          } else if (trend == 'DoubleUp') {
-            $('#BGTrend').text('↑↑');
-          } else if (trend == 'FortyFiveDown') {
-            $('#BGTrend').text('↘');
-          } else if (trend == 'SingleDown') {
-            $('#BGTrend').text('↓');
-          } else if (trend == 'DoubleDown') {
-            $('#BGTrend').text('↓↓');
+          var trendArrow = '';
+          if (trend == 'Flat')
+          {
+            trendArrow = '→';
           }
+          else if (trend == 'FortyFiveUp')
+          {
+            trendArrow = '↗';
+          }
+          else if (trend == 'SingleUp')
+          {
+            trendArrow = '↑';
+          }
+          else if (trend == 'DoubleUp')
+          {
+            trendArrow = '↑↑';
+          }
+          else if (trend == 'FortyFiveDown')
+          {
+            trendArrow = '↘';
+          }
+          else if (trend == 'SingleDown')
+          {
+            trendArrow = '↓';
+          }
+          else if (trend == 'DoubleDown')
+          {
+            trendArrow = '↓↓';
+          }
+
+          $('#BGTrend').text(trendArrow);
+          document.title = bgValue+' '+trendArrow;
+
 
           //$('#Debug').text(response);
           //$("#Debug").css("display","inline");
         }
         catch( e )
         {
-          $('#BGValue').text('N/A');
+          $('#BGValue').text('[Error]');
+        }
+        if ($("#Form").css("display") != "none")
+        {
+          hideForm();
         }
       },
+
+      error: function(error)
+      {
+        hidePage();
+        showForm();
+        console.log('error; ' + error);
+      }
+
     });
+
+    if (timeout == null)
+    {
+      timeout = setTimeout('RefreshEntries();', 10000);
+    }
   }
-  //setTimeout(RefreshEntries, 5000);
+  else
+  {
+    $('#BGValue').text('[disabled]');
+
+    if (timeout !== null)
+    {
+      timeout = clearTimeout('RefreshEntries();');
+    }
+  }
 }
 
-function handleChange(e) {
+function handleChange(e)
+{
   console.log('handleChange');
   let form = {};
   form.url = url.value;
@@ -120,14 +189,16 @@ function handleChange(e) {
   saveForm(form);
 }
 
-function saveForm(form) {
+function saveForm(form)
+{
   console.log('saving');
   let f = JSON.stringify(form);
   console.log(f);
   window.localStorage.setItem('form', f);
 }
 
-function getForm() {
+function getForm()
+{
   console.log('loading');
   let f = window.localStorage.getItem('form');
   console.log(f);
