@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>NSClientJS</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link rel="manifest" href="manifest.json" />
+    <!--<link href="images.css" rel="stylesheet">
+    <link href="colors.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="modal.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">-->
+    <link rel="icon" type="image/x-icon" href="/png/favicon.ico" sizes="any">
+    <script src="jquery-3.7.1.js"></script>
+    <script src="nsclientjs.js"></script>
+  </head>
+
+  <body>
+    <input id="showButton" type="button"  value = "Config" onClick="showForm();" />
+
+    <div id="Form" style="display:none;">
+      <form id="mainForm">
+        <p>
+        <label for="url">Nightscout URL</label>
+          <input type="text" name="url" id="url">
+        </p>
+        <p>
+        <label for="token">Readable Token</label>
+        <input type="text" name="token" id="token">
+        </p>
+        <p>
+          <label for="unit">BG Unit</label><br/>
+          <input type="radio" name="unit" id="mgdl" value="mgdl"><label for="mgdl">mg/dL</label><br/>
+          <input type="radio" name="unit" id="mmol" value="mmol"><label for="mmol">mmol/L</label><br/>
+        </p>
+      <p>
+        <input id="hideButton" type="button"  value="Ok" onClick="hideForm();" />
+      </p>
+      </form>
+    </div> <!-- End Form -->
+
+    <div id="Page">
+      <div class="BigText" id="BGValue">
+        ---
+      </div>
+      <div class="BigText" id="BGTrend">
+        ?
+      </div>
+      <div class="SmallText" id="Debug" style="display:none">
+        [...]
+      </div>
+    </div><br/> <!-- End Page -->
+
+  </body>
+</html>
+
