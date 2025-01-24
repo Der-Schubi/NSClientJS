@@ -78,7 +78,7 @@ $(document).ready(function()
 
 function RefreshEntries()
 {
-  if (document.hidden !== true && enableRefresh == true)
+  if (enableRefresh == true)
   {
     console.log('refresh');
     $.ajax({
@@ -155,8 +155,6 @@ function RefreshEntries()
 
       error: function(error)
       {
-        hidePage();
-        showForm();
         console.log('error; ' + error);
       }
 
