@@ -26,10 +26,14 @@ a {
     font-size: 6rem;
 }
 .SmallText {
-    font-size: 3rem;
+    font-size: 4rem;
 }
 .SmallerText {
     font-size: 1rem;
+}
+
+#BGTrend {
+  letter-spacing: -1.5rem;
 }
 
 .Main {
@@ -60,10 +64,6 @@ a {
 #Graph {
   height: 30%;
   font-size: 0.6rem;
-}
-
-#BGTrend {
-  letter-spacing: -2rem;
 }
 
 #configButton {
