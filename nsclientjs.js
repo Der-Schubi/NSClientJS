@@ -1,5 +1,5 @@
 let url, token, unit;
-let timeout;
+var timerID = null;
 var enableRefresh = false;
 
 function showForm()
@@ -46,16 +46,18 @@ $(document).ready(function()
 
   let cached = getForm();
   console.log(cached);
-  if(cached) {
+  if(cached)
+  {
     console.log('reading');
     url.value = cached.url;
     token.value = cached.token;
-    if(cached.unit) {
+    if(cached.unit)
+    {
       unit.forEach(d => {
         if(d.value === cached.unit) d.checked = true;
       });
     }
-    enableRefresh=true;
+    enableRefresh = true;
   }
   else {
     console.log('no data');
@@ -67,16 +69,18 @@ $(document).ready(function()
     window.localStorage.removeItem('form');
   }, false);
 
-
-  // To-Do: Sanity-Check of URL / Token?
   RefreshEntries();
+  timerID = setInterval(function ()
+  {
+    RefreshEntries()
+  }, 10000);
 });
 
 function RefreshEntries()
 {
-  console.log('refresh');
   if (document.hidden !== true && enableRefresh == true)
   {
+    console.log('refresh');
     $.ajax({
       url: url.value+'/api/v1/entries?token='+token.value,
       cache: 'false',
@@ -157,20 +161,11 @@ function RefreshEntries()
       }
 
     });
-
-    if (timeout == null)
-    {
-      timeout = setTimeout('RefreshEntries();', 10000);
-    }
   }
   else
   {
+    console.log('refresh disabled');
     $('#BGValue').text('[disabled]');
-
-    if (timeout !== null)
-    {
-      timeout = clearTimeout('RefreshEntries();');
-    }
   }
 }
 
