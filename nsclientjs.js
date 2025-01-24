@@ -1,10 +1,71 @@
+let url, token, unit;
+
+function showForm() {
+ $("#Form").css("display","block");
+ $("#showButton").css("display","none");
+}
+
+function hideForm() {
+ $("#Form").css("display","none");
+ $("#showButton").css("display","inline");
+}
+
+function showPage() {
+ $("#Page").css("display","block");
+}
+
+function hidePage() {
+ $("#Page").css("display","none");
+}
+
+$(document).ready(function() {
+  console.log('init');
+  $('#BGValue').text('[loading]');
+
+  // get the dom objects one time
+  url = document.querySelector('#url');
+  token = document.querySelector('#token');
+  unit = document.querySelectorAll('input[name=unit]');
+
+  let elems = Array.from(document.querySelectorAll('#mainForm input, #mainForm select'));
+  elems.forEach(e => e.addEventListener('input', handleChange, false));
+
+  let cached = getForm();
+  console.log(cached);
+  if(cached) {
+    console.log('reading');
+    url.value = cached.url;
+    token.value = cached.token;
+    if(cached.unit) {
+      unit.forEach(d => {
+        if(d.value === cached.unit) d.checked = true;
+      });
+    }
+  }
+  else {
+    console.log('no data');
+    hidePage();
+    showForm();
+  }
+
+  document.querySelector('#mainForm').addEventListener('submit', () => {
+    window.localStorage.removeItem('form');
+  }, false);
+
+
+  // To-Do: Sanity-Check of URL / Token?
+  RefreshEntries();
+});
+
 function RefreshEntries() {
   if (document.hidden !== true)
   {
     $.ajax({
-      url: ns_url+'/api/v1/entries?token='+token,
+      url: url.value+'/api/v1/entries?token='+token.value,
       cache: 'false',
       method: 'GET',
+      //async:true,
+      //crossDomain:true,
       timeout: 1000,
       success: function(response)
       {
@@ -33,6 +94,7 @@ function RefreshEntries() {
           }
 
           //$('#Debug').text(response);
+          //$("#Debug").css("display","inline");
         }
         catch( e )
         {
@@ -41,11 +103,33 @@ function RefreshEntries() {
       },
     });
   }
-  setTimeout(RefreshEntries, 5000);
+  //setTimeout(RefreshEntries, 5000);
 }
 
-$(document).ready(function() {
-  $('#BGValue').text('[loading]');
-  RefreshEntries();
-});
+function handleChange(e) {
+  console.log('handleChange');
+  let form = {};
+  form.url = url.value;
+  form.token = token.value;
+  // either null or one
+  unit.forEach(d => {
+    if(d.checked) form.unit = d.value;
+  });
 
+  // store ...
+  saveForm(form);
+}
+
+function saveForm(form) {
+  console.log('saving');
+  let f = JSON.stringify(form);
+  console.log(f);
+  window.localStorage.setItem('form', f);
+}
+
+function getForm() {
+  console.log('loading');
+  let f = window.localStorage.getItem('form');
+  console.log(f);
+  if(f) return JSON.parse(f);
+}
