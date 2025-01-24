@@ -36,6 +36,14 @@ a {
   letter-spacing: -1.5rem;
 }
 
+.HighBG {
+  color: #ffc142;
+}
+
+.LowBG {
+  color: #ff4242;
+}
+
 .Main {
   position: absolute;
   width: 25rem;

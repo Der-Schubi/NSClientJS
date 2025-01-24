@@ -95,31 +95,45 @@ function RefreshEntries()
           var secondLine = response.split("\n")[1];
           var words = firstLine.split('	');
           var words2nd = secondLine.split('	');
+          var bgValueMgdl = '';
           var bgValue = '';
           var bgLastValue = '';
           var bgDiff = '';
 
+          bgValueMgdl = words[2];
           if ($("#mmol").is(":checked"))
           {
-            bgValue = (words[2]/18).toFixed(1);
+            bgValue = (bgValueMgdl/18).toFixed(1);
             bgLastValue = (words2nd[2]/18);
             bgDiff = (bgValue - bgLastValue).toFixed(1)
             $('#BGUnit').text('mmol/L');
           }
           else
           {
-            bgValue = words[2];
+            bgValue = bgValueMgdl;
             bgLastValue = words2nd[2];
             bgDiff = (bgValue - bgLastValue).toFixed(0)
             $('#BGUnit').text('mg/dL');
           }
 
-          if (bgDiff >= 0) {
+          if (bgDiff >= 0)
+          {
             bgDiff = '+'+bgDiff;
           }
 
           $('#BGValue').text(bgValue);
           $('#BGDiff').text(bgDiff);
+
+          if (bgValueMgdl >= 180) {
+            $('#BGValue').removeClass("LowBG").addClass("HighBG");
+          }
+          else if (bgValueMgdl <= 80) {
+            $('#BGValue').removeClass("HighBG").addClass("LowBG");
+          }
+          else
+          {
+            $('#BGValue').removeClass("HighBG LowBG");
+          }
 
           var trend = words[3].replace(/['"]+/g, '');
           var trendArrow = '';
